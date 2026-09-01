@@ -1,0 +1,27 @@
+Algoritmo Ingreso_Con_Clave
+	
+	Definir clave_correcta, clave_ingresada, intentos Como Entero
+	
+	clave_correcta <- 271710 
+	intentos <- 0
+	
+	Escribir "Sistema de Seguridad ---"
+	
+	Repetir
+		Escribir "Por favor, ingrese su clave numérica:"
+		Leer clave_ingresada
+		
+		intentos <- intentos + 1
+		
+		Si clave_ingresada <> clave_correcta Entonces
+			Escribir "Clave incorrecta. Inténtelo nuevamente."
+			Escribir "---------------------------------------"
+		FinSi
+		
+	Hasta Que clave_ingresada = clave_correcta
+	
+	Escribir "" 
+	Escribir "¡ACCESO CONCEDIDO!"
+	Escribir "Cantidad de intentos realizados: ", intentos fallidos
+	
+FinAlgoritmo

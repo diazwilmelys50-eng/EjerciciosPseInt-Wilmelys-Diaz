@@ -1,0 +1,242 @@
+Algoritmo  Sistema_Prestamos_DE_Biblioteca
+	
+	Definir codigo, titulo, autor, estado Como Caracter
+	Definir cantidad, opcion Como Entero
+	
+	Dimension codigo[10]
+	Dimension titulo[10]
+	Dimension autor[10]
+	Dimension estado[10]
+	cantidad <- 0
+	
+	Repetir
+		
+		Escribir "=============================="
+		Escribir "SISTEMA DE PRESTAMOS"
+		Escribir "De Biblioteca"
+		Escribir "=============================="
+		Escribir "1. Registrar libro"
+		Escribir "2. Mostrar libros"
+		Escribir "3. Buscar por codigo"
+		Escribir "4. Registrar prestamo"
+		Escribir "5. Registrar devolucion"
+		Escribir "6. Mostrar resumen"
+		Escribir "7. Salir"
+		Escribir "Seleccione una opcion:"
+		
+		Leer Opcion
+		
+		Segun opcion Hacer
+			1:
+				RegistrarLibro(codigo, titulo, autor, estado, cantidad)
+			2:
+				MostrarLibros(codigo, titulo, autor, estado, cantidad)
+			3:
+				BuscarLibro(codigo, titulo, autor, estado, cantidad)
+			4:
+				PrestarYDevolver(codigo, estado, cantidad, 4)
+			5:
+				PrestarYDevolver(codigo, estado, cantidad, 5)
+			6:
+				MostrarResumen(estado, cantidad)
+			7:
+				Escribir "PROGRAMA FINALIZADO."
+			De Otro Modo:
+				Escribir "Opcion NO valida"
+		FinSegun
+		
+	Hasta Que opcion = 7
+	
+FinAlgoritmo
+
+SubProceso RegistrarLibro(codigo Por Referencia, titulo Por Referencia, autor Por Referencia, estado Por Referencia, cantidad Por Referencia)
+	
+	Definir nuevoCodigo, nuevoTitulo, nuevoAutor Como Caracter
+	Definir i Como Entero
+	Definir repetido Como Logico
+	
+	Si cantidad = 10 Entonces
+		
+		Escribir "El catalogo ya tiene 10 Libros."
+		
+	SiNo
+		
+		Escribir "Ingrese el Codigo del Libro:"
+		Leer nuevoCodigo
+		
+		repetido <- Falso
+		
+		Para i <- 1 Hasta cantidad Hacer
+			Si codigo[i] = nuevoCodigo Entonces
+				repetido <- Verdadero
+			FinSi
+		FinPara
+		
+		Si repetido = Verdadero Entonces
+			
+			Escribir "Ese codigo ya esta registrado."
+			
+		SiNo
+			
+			Escribir "Ingrese el titulo del libro:"
+			Leer nuevoTitulo
+			
+			Escribir "Ingrese el autor del libro:"
+			Leer nuevoAutor
+			
+			cantidad <- cantidad + 1
+			
+			codigo[cantidad] <- nuevoCodigo
+			titulo[cantidad] <- nuevoTitulo
+			autor[cantidad] <- nuevoAutor
+			estado[cantidad] <- "Disponible"
+			
+			Escribir "Libro registrado correctamente"
+			Escribir "Estado: Disponible."
+			
+		FinSi
+		
+	FinSi
+	
+	
+FinSubProceso
+
+SubProceso MostrarLibros(codigo, titulo, autor, estado, cantidad)
+	
+	Definir i Como Entero
+	
+	Si cantidad = 0 Entonces
+		
+		Escribir "No hay libros registrados."
+		
+	SiNo
+		
+		Escribir "=============================="
+		Escribir "       LIBROS REGISTRADOS"
+		Escribir "=============================="
+		
+		Para i <- 1 Hasta cantidad Hacer
+			
+			Escribir "Libro ", i
+			Escribir "Codigo: ", codigo[i]
+			Escribir "Titulo: ", titulo[i]
+			Escribir "Autor: ", autor[i]
+			Escribir "Estado: ", estado[i]
+			Escribir "------------------------------"
+			
+		FinPara
+		
+	FinSi
+	
+FinSubProceso
+
+SubProceso BuscarLibro(codigo Por Referencia, titulo Por Referencia, autor Por Referencia, estado Por Referencia, cantidad)
+	
+	Definir buscar Como Caracter
+	Definir i Como Entero
+	Definir encontrado Como Logico
+	
+	Si cantidad = 0 Entonces
+		
+		Escribir "No hay libros registrados."
+		
+	SiNo
+		
+		Escribir "Ingrese el codigo del libro:"
+		Leer buscar
+		
+		encontrado <- Falso
+		
+		Para i <- 1 Hasta cantidad Hacer
+			Si codigo[i] = buscar Entonces
+				Escribir "Codigo: ", codigo[i]
+				Escribir "Titulo: ", titulo[i]
+				Escribir "Autor: ", autor[i]
+				Escribir "Estado: ", estado[i]
+				encontrado <- Verdadero
+			FinSi
+		FinPara
+		
+		Si encontrado = Falso Entonces
+			Escribir "No se encontro el libro."
+		FinSi
+		
+	FinSi
+	
+FinSubProceso
+
+SubProceso PrestarYDevolver(codigo Por Referencia, estado Por Referencia, cantidad Por Referencia, opcion)
+	
+	Definir buscar Como Caracter
+	Definir i Como Entero
+	Definir encontrado Como Logico
+	
+	Si cantidad = 0 Entonces
+		
+		Escribir "No hay libros registrados."
+		
+	SiNo
+		
+		Escribir "Ingrese el codigo del libro:"
+		Leer buscar
+		
+		encontrado <- Falso
+		
+		Para i <- 1 Hasta cantidad Hacer
+			Si codigo[i] = buscar Entonces
+				
+				encontrado <- Verdadero
+				
+				Si opcion = 4 Entonces
+					Si estado[i] = "Disponible" Entonces
+						estado[i] <- "Prestado"
+						Escribir "Prestamo registrado correctamente."
+					SiNo
+						Escribir "El libro ya esta Prestado."
+					FinSi
+				SiNo
+					Si estado[i] = "Prestado" Entonces
+						estado[i] <- "Disponible"
+						Escribir "Devolucion registrada correctamente."
+					SiNo
+						Escribir "El libro ya esta Disponible."
+					FinSi
+				FinSi
+				
+			FinSi
+		FinPara
+		
+		Si encontrado = Falso Entonces
+			Escribir "No se encontro el libro."
+		FinSi
+		
+	FinSi
+	
+FinSubProceso
+
+SubProceso MostrarResumen(estado Por Referencia, cantidad)
+	
+	Definir i, disponibles, prestados Como Entero
+	
+	disponibles <- 0
+	prestados <- 0
+	
+	Para i <- 1 Hasta cantidad Hacer
+		Si estado[i] = "Disponible" Entonces
+			disponibles <- disponibles + 1
+		SiNo
+			prestados <- prestados + 1
+		FinSi
+	FinPara
+	
+	Escribir "=============================="
+	Escribir "RESUMEN"
+	Escribir "=============================="
+	Escribir "Total de libros: ", cantidad
+	Escribir "Disponibles: ", disponibles
+	Escribir "Prestados: ", prestados
+	
+FinSubProceso
+
+
+
